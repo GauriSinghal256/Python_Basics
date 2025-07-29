@@ -1,0 +1,63 @@
+🔢 Part 1 – Core Array Manipulations
+Create a 1D array from 0 to 20 (inclusive)
+
+Reshape it into a 5x4 matrix
+
+Flatten it back to 1D using two different methods
+
+Extract a submatrix of size 2x3 from the top-right corner
+
+🔄 Part 2 – Indexing & Slicing
+Replace all even numbers in an array with -1
+
+Replace the last column in a 3x3 matrix with all 100s
+
+Reverse an array (1D and 2D)
+
+Extract every 2nd row from a 2D array
+
+➕ Part 3 – Math Ops & Broadcasting
+Add a 1D array [1, 2, 3] to each row of a 3x3 matrix
+
+Multiply a 4x4 matrix by 2 using broadcasting
+
+Normalize an array to the range 0 to 1
+
+Given two arrays a and b, check which elements of a are greater than those of b and return a boolean array
+
+📊 Part 4 – Stats & Aggregations
+Calculate:
+
+Mean
+
+Median
+
+Standard Deviation
+
+Variance
+of a random 1D array of size 100
+
+In a 3x3 matrix, find:
+
+Sum along rows
+
+Sum along columns
+
+🎲 Part 5 – Random & Simulations
+Generate:
+
+10 random integers between 50 and 100
+
+A 5x5 matrix with values between 0 and 1 (use np.random.rand)
+
+A reproducible random array using np.random.seed(42)
+
+Simulate 1000 coin tosses (0 for tails, 1 for heads) and count how many heads you got
+
+🧪 Optional DRDO-style Thinking Question
+A sensor array gives you readings in a 10x10 NumPy matrix. Values >90 are considered "critical".
+
+Count how many critical readings are there
+
+Replace all values >90 with 99
+
