@@ -1,0 +1,181 @@
+🔹 Why use __balance with double underscores?
+In Python, when you write a variable like __balance, you're telling Python to make it private by using name mangling.
+
+✅ What is a Private Variable?
+A private variable is a variable that should not be accessed directly from outside the class.
+
+Python doesn’t enforce strict privacy (like some other languages), but it uses convention and name mangling to make variables "private-ish".
+
+🔑 Rules:
+Prefix	                           Access Level	                   Meaning
+no underscore	                   Public	                       Can be accessed anywhere.
+_single_underscore	               Protected	                   Meant for internal use (can be accessed but not recommended).
+__double_underscore	               Private	                       Name mangled to prevent direct access.
+
+🔍 Example: Name Mangling in Action
+
+class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance
+
+acc = BankAccount(1000)
+
+# print(acc.__balance)  # ❌ Will raise AttributeError
+
+# But we can access it like this (not recommended):
+print(acc._BankAccount__balance)  # ✅ 1000
+🔸 Why does this work?
+Python changes __balance to _BankAccount__balance internally to avoid accidental access.
+
+✅ Why use private variables at all?
+To enforce encapsulation, like:
+
+Preventing accidental changes to important variables.
+Controlling how variables are accessed or modified (e.g., using getter/setter methods).
+
+
+❓Why is your __balance not truly private, even though you wrote self.__balance?
+Because in Python, nothing is truly private.
+Python follows the principle of "we are all consenting adults here", meaning:
+
+"You can access private data, but you shouldn't."
+
+🔍 What actually happens when you write __balance?
+Python performs name mangling:
+
+self.__balance → becomes → self._BankAccount__balance
+So technically, the variable still exists, just under a new "mangled" name.
+
+That's why this works:
+
+print(acc._BankAccount__balance)  ✅
+Even though this fails:
+
+print(acc.__balance)  ❌ AttributeError
+🛡️ So is it private or not?
+Term	        Meaning in Python
+Public	        Can be accessed freely (self.balance)
+Protected	    Meant to be internal (self._balance)
+Private	        Name-mangled to discourage access (self.__balance)
+
+🔐 __balance is private by convention, not by force.
+
+| Pillar        | Purpose                         | Keyword/Concept            |
+| ------------- | ------------------------------- | -------------------------- |
+| Encapsulation | Hides internal state            | Private variables, methods |
+| Abstraction   | Shows only essential features   | `@abstractmethod`, `ABC`   |
+| Inheritance   | Reuse code from another class   | `class B(A):`              |
+| Polymorphism  | Same method behaves differently | Overriding                 |
+
+
+
+✅ What is Operator Overloading?
+Operator Overloading means giving custom behavior to operators (+, -, *, ==, etc.) when they are used with user-defined objects (your own classes).
+
+In other words:
+
+You can define how Python should treat +, -, *, etc. for your objects.
+
+🔍 Real Example:
+
+print(3 + 4)           # 7 (for integers)
+print("Hello " + "World")  # "Hello World" (for strings)
+👉 Here, + works differently for different types — this is overloading!
+
+🧠 How can we use it in our class?
+You define magic methods like:
+
+Operator	Method
++	__add__()
+-	__sub__()
+*	__mul__()
+/	__truediv__()
+==	__eq__()
+<	__lt__()
+>	__gt__()
+
+✅ Example: Overload +, *, and ==
+
+class Number:
+    def __init__(self, n):
+        self.n = n
+
+    def __add__(self, other):
+        return self.n + other
+
+    def __mul__(self, other):
+        return self.n * other
+
+    def __eq__(self, other):
+        return self.n == other
+
+a = Number(5)
+
+print(a + 10)   # Calls __add__ → 15
+print(a * 3)    # Calls __mul__ → 15
+print(a == 5)   # Calls __eq__  → True
+🔁 Why use Operator Overloading?
+To make custom objects behave more like built-in types.
+
+To make your code cleaner, more readable.
+
+✅ Your Doubt:
+“Why use operator overloading when we can just add things in a normal function?”
+
+Let’s break it down simply:
+
+🔹 1. Normal function is fine for simple values (like int, float):
+
+def add(a, b):
+    return a + b
+
+print(add(3, 5))  # ✅ 8
+No need for operator overloading here — it’s built-in.
+
+🔹 2. But what if we have custom objects?
+Let’s say you’re working with a class like this:
+
+class Money:
+    def __init__(self, rupees, paise):
+        self.rupees = rupees
+        self.paise = paise
+Now you want to add two Money objects like this:
+
+
+m1 = Money(10, 50)
+m2 = Money(5, 75)
+
+print(m1 + m2)  # ❌ This gives an error unless we overload __add__
+Because Python doesn't know how to add two custom Money objects. That's where operator overloading comes in.
+
+✅ So you define __add__ like this:
+
+class Money:
+    def __init__(self, rupees, paise):
+        self.rupees = rupees
+        self.paise = paise
+
+    def __add__(self, other):
+        total_paise = self.paise + other.paise
+        total_rupees = self.rupees + other.rupees + total_paise // 100
+        total_paise = total_paise % 100
+        return Money(total_rupees, total_paise)
+
+    def __str__(self):
+        return f"{self.rupees} rupees and {self.paise} paise"
+
+m1 = Money(10, 50)
+m2 = Money(5, 75)
+
+print(m1 + m2)  # ✅ 16 rupees and 25 paise
+🔁 In short:
+Case	Use normal function?	Need operator overloading?
+Adding integers, floats	✅ Yes	❌ No
+Adding custom objects	❌ Not enough	✅ Yes
+
+✅ Why Operator Overloading is Cool:
+Makes your objects behave like built-in types.
+
+Improves readability: a + b is cleaner than a.add(b)
+
+Useful in real-life classes: Point, Vector, Matrix, Money, etc.
